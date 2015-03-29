@@ -1,1 +1,4 @@
-Working through some basic SQL stuff with Inna
+Working through some basic SQL stuff with Inna  
+
+Note that analytic and window functions weren't added until sqlite v3.8.3  
+Since debian installs v3.8.2 by default, you need to DL sqlite from their website  

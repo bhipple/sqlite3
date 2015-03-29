@@ -21,36 +21,28 @@ INSERT INTO cust VALUES(6, 0, "Ham", 2000);
 
 select * from cust;
 
-select cust_num, count(*) from cust;
 -- The 0 comes incidentally because it happens to be the cust_num of the final entry
 -- Not a particularly useful query, as it's identical to `select count(*) from cust;`
--- 0|7
+select cust_num, count(*) from cust;
 
-select cust_num, count(*) from cust group by cust_num;
 -- Now we're getting somewhere: shows how many rows (orders) there are for each customer
--- 0|3
--- 1|3
--- 2|1
+select cust_num, count(*) from cust group by cust_num;
 
-select cust_num, count(*) as orderCt from cust group by cust_num order by orderCt;
 -- Saves the variable of the count(*) so that we can order by it
--- 2|1
--- 0|3
--- 1|3
+select cust_num, count(*) as orderCt from cust group by cust_num order by orderCt;
 
-select cust_num, sum(order_cost) as orderTotal from cust group by cust_num order by orderTotal DESC;
 -- Get the total spent by each customer and order it, descending
--- 0|3550
--- 1|2350
--- 2|50
+select cust_num, sum(order_cost) as orderTotal from cust group by cust_num order by orderTotal DESC;
 
--- Analytic functions / window functions weren't added to sqlite3 until v3.8.3, which is why
+-- Find each customer's most expensive purchase using a group by aggregate function
+select cust_num, max(order_cost) from cust group by cust_num;
+
+-- Do Analytic functions / window functions work in sqlite3?
 -- I haven't been able to get these to work :(
--- TODO: Get newer version
 
 -- select cust_num, (sum(order_cost) over (partition by cust_num)) as s from cust;
--- select cust_num,
---       sum(order_cost) over (partition by cust_num order by cust_num
---           rows between unbounded preceding and current row) as s,
---       order_cost
---    from cust;
+ --select cust_num,
+       --sum(order_cost) over (partition by cust_num order by cust_num
+           --rows between unbounded preceding and current row) as s,
+       --order_cost
+    --from cust;
